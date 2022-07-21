@@ -39,7 +39,7 @@ public var SurveyTask: ORKOrderedTask {
     steps += [questQuestionStep]
   
   //TODO: add color question step
-    let colorQuestionStepTitle = "What is your favorite color?"
+    let colorQuestionStepTitle = "What is your favorite adventure?"
     let colorTuples = [
 //      (UIImage(named: "red")!, "Red"),
 //      (UIImage(named: "orange")!, "Orange"),
@@ -68,7 +68,7 @@ public var SurveyTask: ORKOrderedTask {
   //TODO: add summary step
     let summaryStep = ORKCompletionStep(identifier: "SummaryStep")
     summaryStep.title = "Right. Off you go!"
-    summaryStep.text = "That was easy!"
+    summaryStep.text = "Thank You."
     steps += [summaryStep]
 
   
