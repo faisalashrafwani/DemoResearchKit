@@ -19,6 +19,7 @@
 		49687B022810028300CBF8F9 /* MicrophoneTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49687B012810028300CBF8F9 /* MicrophoneTask.swift */; };
 		841C647E288918CA005629BB /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841C647B288918B8005629BB /* ResearchKit.framework */; platformFilter = ios; };
 		841C647F288918CA005629BB /* ResearchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 841C647B288918B8005629BB /* ResearchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		846FCF54288A7F8100A746D2 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FCF53288A7F8100A746D2 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		49687AFF280FFD7D00CBF8F9 /* SurveyTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyTask.swift; sourceTree = "<group>"; };
 		49687B012810028300CBF8F9 /* MicrophoneTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneTask.swift; sourceTree = "<group>"; };
 		841C6474288918B8005629BB /* ResearchKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ResearchKit.xcodeproj; path = "../../../../Downloads/ResearchKit-main/ResearchKit.xcodeproj"; sourceTree = "<group>"; };
+		846FCF53288A7F8100A746D2 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 		49687AD8280FDDFD00CBF8F9 /* DemoResearchKitApp */ = {
 			isa = PBXGroup;
 			children = (
+				846FCF53288A7F8100A746D2 /* Model.swift */,
 				49687AD9280FDDFD00CBF8F9 /* AppDelegate.swift */,
 				49687ADB280FDDFD00CBF8F9 /* SceneDelegate.swift */,
 				49687ADD280FDDFD00CBF8F9 /* ViewController.swift */,
@@ -234,6 +237,7 @@
 				49687AFE280FEB6300CBF8F9 /* ConsentTask.swift in Sources */,
 				49687ADA280FDDFD00CBF8F9 /* AppDelegate.swift in Sources */,
 				49687ADC280FDDFD00CBF8F9 /* SceneDelegate.swift in Sources */,
+				846FCF54288A7F8100A746D2 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
