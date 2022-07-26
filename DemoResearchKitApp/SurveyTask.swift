@@ -7,6 +7,7 @@
 
 import Foundation
 import ResearchKit
+import CoreAudio
 
 public var SurveyTask: ORKOrderedTask {
   var steps = [ORKStep]()
@@ -23,19 +24,20 @@ public var SurveyTask: ORKOrderedTask {
     let nameAnswerFormat = ORKTextAnswerFormat(maximumLength: 20)
     nameAnswerFormat.multipleLines = false
     let nameQuestionStepTitle = "What is your name?"
-    let nameQuestionStep = ORKQuestionStep(identifier: "QuestionStep", title: nameQuestionStepTitle, answer: nameAnswerFormat)
+    let nameQuestionStep = ORKQuestionStep(identifier: "QuestionStep", title: "Name Step", question: nameQuestionStepTitle, answer: nameAnswerFormat)
+    nameQuestionStep.placeholder = "Enter Your Name!"
     steps += [nameQuestionStep]
 
   
   //TODO: add what is your Qualification
     let questQuestionStepTitle = "What is your Qualification?"
     let textChoices = [
-      ORKTextChoice(text: "Diploma", value: 0 as NSNumber),
-      ORKTextChoice(text: "Graduation", value: 1 as NSNumber),
-      ORKTextChoice(text: "Post graduation", value: 2 as NSNumber)
+      ORKTextChoice(text: "Diploma", value: "Diploma" as NSString),
+      ORKTextChoice(text: "Graduation", value: "Graduation" as NSString),
+      ORKTextChoice(text: "Post graduation", value: "Post graduation" as NSString)
     ]
     let questAnswerFormat: ORKTextChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
-    let questQuestionStep = ORKQuestionStep(identifier: "TextChoiceQuestionStep", title: questQuestionStepTitle, answer: questAnswerFormat)
+    let questQuestionStep = ORKQuestionStep(identifier: "TextChoiceQuestionStep", title: "Qualification Step", question: questQuestionStepTitle, answer: questAnswerFormat)
     steps += [questQuestionStep]
     
   
@@ -53,13 +55,14 @@ public var SurveyTask: ORKOrderedTask {
         return ORKImageChoice(normalImage: $0.0, selectedImage: nil, text: $0.1, value: $0.1 as NSString)
     }
     let colorAnswerFormat: ORKImageChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: imageChoices)
-    let colorQuestionStep = ORKQuestionStep(identifier: "ImageChoiceQuestionStep", title: colorQuestionStepTitle, answer: colorAnswerFormat)
+    let colorQuestionStep = ORKQuestionStep(identifier: "ImageChoiceQuestionStep", title: "Adventure Step", question: colorQuestionStepTitle, answer: colorAnswerFormat)
     steps += [colorQuestionStep]
     
     
     //TODO: add signature step
     let signatureStep: ORKSignatureStep = ORKSignatureStep(identifier: "SignatureStepForSurvey")
     signatureStep.title = "Sign Here!"
+    signatureStep.isOptional = true
     steps += [signatureStep]
     
     
@@ -76,6 +79,7 @@ public var SurveyTask: ORKOrderedTask {
     
     let config = ORKAudioRecorderConfiguration(identifier: "AudioConfigSetting", recorderSettings: recordingSettings)
     voiceRecordStep.recorderConfigurations = [config]
+    voiceRecordStep.isOptional = true
     steps += [voiceRecordStep]
     
     

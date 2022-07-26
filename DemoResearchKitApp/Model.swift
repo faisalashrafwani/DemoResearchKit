@@ -7,9 +7,10 @@
 
 import Foundation
 class Model {
-    var dateTimeCapture: String?
-    var name: String?
-    var qualification: String?
-    var adventureType: String?
-    var signCapture: String?
+    var id: Int = 0
+    var dateTimeCapture: String = ""
+    var name: String = ""
+    var qualification: String = ""
+    var adventureType: String = ""
+    var signCapture: String = ""
 }
