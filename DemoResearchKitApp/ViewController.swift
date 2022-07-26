@@ -9,12 +9,7 @@ import UIKit
 import ResearchKit
 
 class ViewController: UIViewController {
-//    var captureDateLocal: String = "##########"
-//    var captureDateUTC: String = "##########"
-    var nameVar: String = "##########"
-    var qualificationVar: String = "##########"
-    var adventureTypeVar: String = "##########"
-    var signatureTypeVar: String = "##########"
+    var defaultValue: String = "##########"
     
     var id: Int = 1
     
@@ -53,10 +48,6 @@ class ViewController: UIViewController {
     
     
     @IBAction func surveyTapped(_ sender: Any) {
-        //Capturing date time on tapping survey button.
-//        captureDateLocal = dateTimeCaptureLocal()
-//        captureDateUTC = dateTimeCaptureUTC()
-        
 
         let taskViewController = ORKTaskViewController(task: SurveyTask, taskRun: nil)
           taskViewController.delegate = self
@@ -88,7 +79,7 @@ extension ViewController: ORKTaskViewControllerDelegate {
                             id += 1
                         } else {
                             jsonDict["id"] = id
-                            jsonDict["name"] = nameVar
+                            jsonDict["name"] = defaultValue
                             id += 1
                         }
                         jsonArrayTop.append(jsonDict)
@@ -120,7 +111,7 @@ extension ViewController: ORKTaskViewControllerDelegate {
                             
                         } else {
                             jsonDict["id"] = id
-                            jsonDict["qualification"] = qualificationVar
+                            jsonDict["qualification"] = defaultValue
                             id += 1
                         }
                         jsonArrayTop.append(jsonDict)
@@ -140,7 +131,7 @@ extension ViewController: ORKTaskViewControllerDelegate {
                             
                         } else {
                             jsonDict["id"] = id
-                            jsonDict["adventureType"] = adventureTypeVar
+                            jsonDict["adventureType"] = defaultValue
                             id += 1
                         }
                         jsonArrayTop.append(jsonDict)
@@ -157,7 +148,7 @@ extension ViewController: ORKTaskViewControllerDelegate {
                             let signatureString = imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
                             jsonDict["signature"] = signatureString
                         } else {
-                            jsonDict["signature"] = signatureTypeVar
+                            jsonDict["signature"] = defaultValue
                         }
                     }
                     
@@ -191,16 +182,14 @@ extension ViewController: ORKTaskViewControllerDelegate {
                 
                 let jsonURL = fileManager.first?.appendingPathComponent("researchKit.json")
                 
-                print("PathOfJSONFile: \(jsonURL)")
+                print("PathOfJSONFile: \(jsonURL!)")
                 
                 try jsonData.write(to: jsonURL!)
-            
-                
             }
+            
             catch {
                 print(error)
             }
-            
             
         default: break
         }
