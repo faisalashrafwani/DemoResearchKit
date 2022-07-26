@@ -11,5 +11,5 @@ class Model {
     var name: String?
     var qualification: String?
     var adventureType: String?
-    //var signCapture: String?
+    var signCapture: String?
 }

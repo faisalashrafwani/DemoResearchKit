@@ -58,7 +58,8 @@ public var SurveyTask: ORKOrderedTask {
     
     
     //TODO: add signature step
-    let signatureStep: ORKSignatureStep = ORKSignatureStep(identifier: "SignatureCaptureStepInSurvey")
+    let signatureStep: ORKSignatureStep = ORKSignatureStep(identifier: "SignatureStepForSurvey")
+    signatureStep.title = "Sign Here!"
     steps += [signatureStep]
     
     
@@ -70,7 +71,7 @@ public var SurveyTask: ORKOrderedTask {
     ] as [String : Any]
     
     let voiceRecordStep: ORKAudioStep = ORKAudioStep(identifier: "AudioRecordStepInSurvey")
-    voiceRecordStep.title = "Recording your voice."
+    voiceRecordStep.title = "Recording your voice. Speak up!"
     voiceRecordStep.stepDuration = 5
     
     let config = ORKAudioRecorderConfiguration(identifier: "AudioConfigSetting", recorderSettings: recordingSettings)

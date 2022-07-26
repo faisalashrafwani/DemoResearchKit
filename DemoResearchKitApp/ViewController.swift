@@ -9,10 +9,11 @@ import UIKit
 import ResearchKit
 
 class ViewController: UIViewController {
-    var captureDate: String = "####"
-    var nameVar: String = "####"
-    var qualificationVar: String = "####"
-    var advantureTypeVar: String = "####"
+    var captureDate: String = "##########"
+    var nameVar: String = "##########"
+    var qualificationVar: String = "##########"
+    var adventureTypeVar: String = "##########"
+    var signatureTypeVar: String = "##########"
     
     var jsonArrayTop: [Any] = []
     var jsonDict: [String : Any] = [:]
@@ -44,10 +45,10 @@ class ViewController: UIViewController {
     @IBAction func surveyTapped(_ sender: Any) {
         //Capturing date time on tapping survey button.
         captureDate = dateTimeCapture()
-        
+
         let taskViewController = ORKTaskViewController(task: SurveyTask, taskRun: nil)
           taskViewController.delegate = self
-          taskViewController.outputDirectory = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String, isDirectory: true)
+          taskViewController.outputDirectory = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0], isDirectory: true)
           present(taskViewController, animated: true, completion: nil)
     }
     
@@ -62,48 +63,72 @@ extension ViewController: ORKTaskViewControllerDelegate {
             
             let taskResults = taskViewController.result.results
             jsonDict["dateTimeCapture"] = captureDate
+            
             for stepResults in taskResults! as! [ORKStepResult]{
                 for result in stepResults.results! {
+                    
+                    //NAME STEP
                     if result.identifier == "QuestionStep" {
                         let nameResult = result as? ORKQuestionResult
                         if let user = nameResult?.answer {
-                            //nameVar = String(describing: user)
                             jsonDict["name"] = user
-                        }
-                    }
-                    if result.identifier == "TextChoiceQuestionStep" {
-                        let qualificationResult = result as? ORKQuestionResult
-                        if let data = qualificationResult?.answer {
-                            let test = String(describing: data)
-                            print("testinghere \(test)")
-                            let qualification = Int(test)
-                            print("insideapplied \(qualification)")
-                            if qualification == 1 {
-                                print("appliedinfo")
-                            }
-                            //qualificationVar = String(describing: qualification)
-                            jsonDict["qualification"] = qualification
-                        }
-                    }
-                    if result.identifier == "ImageChoiceQuestionStep" {
-                        let imageChoiceResult = result as? ORKQuestionResult
-                        if let choiceImage = imageChoiceResult?.answer {
-                            //advantureTypeVar = String(describing: choiceImage)
-                            jsonDict["adventureType"] = choiceImage
+                        } else {
+                            jsonDict["name"] = nameVar
                         }
                     }
                     
-//                    if result.identifier == "SignatureCaptureStepInSurvey" {
-//                        let signatureResult = result as? ORKSignatureResult
-//                        if let signature = signatureResult?.signatureImage {
-//                            let imageData = signature.pngData()!
-//                            let datum = imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
-//                          //  print("signhere: \(datum)")
-//                            obj.signCapture = String(describing: datum)
-//                        }
-//                    }
+                    //QUALIFICATION STEP
+                    if result.identifier == "TextChoiceQuestionStep" {
+                        let qualificationResult = result as? ORKQuestionResult
+                        if let qualificationRes = qualificationResult?.answer {
+                            let x = qualificationRes as! [Int]
+                            let qualification = x.first!
+                            
+                            if qualification == 0 {
+                                jsonDict["qualification"] = "Diploma"
+                            }
+                            else if qualification == 1 {
+                                jsonDict["qualification"] = "Graduation"
+                            }
+                            else {
+                                jsonDict["qualification"] = "Post Graduation"
+                            }
+                            
+                        } else {
+                            jsonDict["qualification"] = qualificationVar
+                        }
+                    }
+                    
+                    //IMAGE STEP
+                    if result.identifier == "ImageChoiceQuestionStep" {
+                        let imageChoiceResult = result as? ORKQuestionResult
+                        if let choiceImage = imageChoiceResult?.answer {
+                            let x = choiceImage as! [String]
+                            let choice = x.first!
+                            jsonDict["adventureType"] = choice
+                        } else {
+                            jsonDict["adventureType"] = adventureTypeVar
+                        }
+                    }
+                    
+                    //SIGNATURE STEP
+                    if result.identifier == "SignatureStepForSurvey" {
+                        print("hellotherejson")
+                        
+                        let signatureResult = result as? ORKSignatureResult
+                        if let signature = signatureResult?.signatureImage {
+                            let imageData = signature.pngData()!
+                            let signatureString = imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
+                            jsonDict["signature"] = signatureString
+                        } else {
+                            jsonDict["signature"] = signatureTypeVar
+                        }
+                    }
 //                    if result.identifier == "AudioRecordStepInSurvey" {
-//                        let audioResult = result as?
+//                        let audioResult = result as? ORKAudioRecorder
+//                        if let audioRecord = audioResult?.audioRecorder{
+//
+//                        }
 //                    }
 //                    if result.identifier == "ImageCaptureStepInSurvey" {
 //                        let imageResult = result as? ORKImageCaptureStep
@@ -111,8 +136,6 @@ extension ViewController: ORKTaskViewControllerDelegate {
 //                    }
                         
                 }
-                
-                //jsonArrayTop.append(jsonDict)
             }
                 jsonArrayTop.append(jsonDict)
             
@@ -127,7 +150,7 @@ extension ViewController: ORKTaskViewControllerDelegate {
                 
                 let jsonURL = fileManager.first?.appendingPathComponent("researchKit.json")
                 
-                print("applejson \(jsonURL)")
+                print("PathOfJSONFile: \(jsonURL)")
                 
                 try jsonData.write(to: jsonURL!)
             
@@ -136,8 +159,6 @@ extension ViewController: ORKTaskViewControllerDelegate {
             catch {
                 print(error)
             }
-                
-            //let roughResult = taskViewController.result.stepResult(forStepIdentifier: "stepIdentifier")?.results?.first as! ORKResult
             
             
         default: break
