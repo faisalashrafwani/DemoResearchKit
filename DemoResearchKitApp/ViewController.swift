@@ -11,8 +11,8 @@ import ResearchKit
 class ViewController: UIViewController {
     var defaultValue: String = "##########"
     
-    var id: Int = 1
-    
+    final let timestampId: Int = 4
+
     var jsonArrayTop: [Any] = []
     var jsonDict: [String : Any] = [:]
     
@@ -51,7 +51,6 @@ class ViewController: UIViewController {
     
 }
 
-
 extension ViewController: ORKTaskViewControllerDelegate {
     func taskViewController(_ taskViewController: ORKTaskViewController, didFinishWith reason: ORKTaskViewControllerFinishReason, error: Error?) {
         
@@ -59,91 +58,68 @@ extension ViewController: ORKTaskViewControllerDelegate {
         case .saved, .completed:
             
             let taskResults = taskViewController.result.results
+            
             //FETCH RESULTS
             for stepResults in taskResults! as! [ORKStepResult]{
                 for result in stepResults.results! {
                     
                     //NAME STEP
-                    if result.identifier == "QuestionStep" {
+                    if result.identifier == "1" {
                         let nameResult = result as? ORKQuestionResult
-                        jsonDict["id"] = id
-                        if let user = nameResult?.answer {
-                            jsonDict["name"] = user
-                        } else {
-                            jsonDict["name"] = defaultValue
-                        }
-                        id += 1
+                        jsonDict["id"] = Int(result.identifier)
+                        jsonDict["name"] = nameResult?.answer ?? defaultValue
                         jsonArrayTop.append(jsonDict)
                     }
                     
                     //QUALIFICATION STEP
-                    if result.identifier == "TextChoiceQuestionStep" {
+                    if result.identifier == "2" {
                         let qualificationResult = result as? ORKQuestionResult
-                        jsonDict["id"] = id
-                        if let qualificationRes = qualificationResult?.answer {
-                            let x = qualificationRes as! [String]
-                            let qualification = x.first!
-                            jsonDict["qualification"] = qualification
-                            
-                        } else {
-                            jsonDict["qualification"] = defaultValue
-                        }
-                        id += 1
+                        jsonDict["id"] = Int(result.identifier)
+                        let qualificationRes = qualificationResult?.answer as? [String] ?? [defaultValue]
+                        let qualification = qualificationRes.first!
+                        jsonDict["qualification"] = qualification
                         jsonArrayTop.append(jsonDict)
                     }
                     
-                    //IMAGE STEP
-                    if result.identifier == "ImageChoiceQuestionStep" {
+                    //ADVENTURE STEP
+                    if result.identifier == "3" {
                         let imageChoiceResult = result as? ORKQuestionResult
-                        jsonDict["id"] = id
-                        if let choiceImage = imageChoiceResult?.answer {
-                            let x = choiceImage as! [String]
-                            let choice = x.first!
-                            jsonDict["adventureType"] = choice
-                            
-                        } else {
-                            jsonDict["adventureType"] = defaultValue
-                        }
-                        id += 1
+                        jsonDict["id"] = Int(result.identifier)
+                        let choiceImageRes = imageChoiceResult?.answer as? [String] ?? [defaultValue]
+                        let choice = choiceImageRes.first
+                        jsonDict["adventureType"] = choice
                         jsonArrayTop.append(jsonDict)
                     }
                     
                     //SIGNATURE STEP
-                    if result.identifier == "SignatureStepForSurvey" {
+                    if result.identifier == "4" {
                         print("hellotherejson")
-                        
+
                         let signatureResult = result as? ORKSignatureResult
-                        if let signature = signatureResult?.signatureImage {
-                            let imageData = signature.pngData()!
-                            let signatureString = imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
-                            jsonDict["signature"] = signatureString
-                        } else {
-                            jsonDict["signature"] = defaultValue
-                        }
+                        jsonDict["id"] = Int(result.identifier)
+                        let signature = signatureResult?.signatureImage ?? UIImage(named:"baloonride")
+                        let imageData = signature!.pngData()!
+                        let signatureString = imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
+                        jsonDict["signature"] = signatureString
+                        
                     }
                     
-                    
-//                    if result.identifier == "AudioRecordStepInSurvey" {
-//                        let audioResult = result as? ORKAudioRecorder
-//                        if let audioRecord = audioResult?.audioRecorder{
+//                    if result.identifier == "5" {
 //
-//                        }
 //                    }
 //
-//                    if result.identifier == "ImageCaptureStepInSurvey" {
-//                        let imageResult = result as? ORKImageCaptureStep
-//                        let image = imageResult?.image
+//                    if result.identifier == "6" {
+//
 //                    }
-                        
                 }
                 jsonDict = [:]
             }
-            jsonDict["id"] = id
+            jsonDict["id"] = timestampId
             jsonDict["timeCaptureLocal"] = dateTimeCaptureLocal()
             jsonDict["timeCaptureUTC"] = dateTimeCaptureUTC()
             jsonArrayTop.append(jsonDict)
             jsonDict = [:]
-            id = 1
+            
             
             //CREATION OF JSON FILE
             do {
@@ -170,5 +146,3 @@ extension ViewController: ORKTaskViewControllerDelegate {
     
 
 }
-
-

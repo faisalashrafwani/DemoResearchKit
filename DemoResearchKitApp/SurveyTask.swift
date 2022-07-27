@@ -24,8 +24,11 @@ public var SurveyTask: ORKOrderedTask {
     let nameAnswerFormat = ORKTextAnswerFormat(maximumLength: 20)
     nameAnswerFormat.multipleLines = false
     let nameQuestionStepTitle = "What is your name?"
-    let nameQuestionStep = ORKQuestionStep(identifier: "QuestionStep", title: "Name Step", question: nameQuestionStepTitle, answer: nameAnswerFormat)
+    let nameQuestionStep = ORKQuestionStep(identifier: "1", title: "Name Step", question: nameQuestionStepTitle, answer: nameAnswerFormat)
     nameQuestionStep.placeholder = "Enter Your Name!"
+    
+    
+    
     steps += [nameQuestionStep]
 
   
@@ -37,7 +40,7 @@ public var SurveyTask: ORKOrderedTask {
       ORKTextChoice(text: "Post graduation", value: "Post graduation" as NSString)
     ]
     let questAnswerFormat: ORKTextChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
-    let questQuestionStep = ORKQuestionStep(identifier: "TextChoiceQuestionStep", title: "Qualification Step", question: questQuestionStepTitle, answer: questAnswerFormat)
+    let questQuestionStep = ORKQuestionStep(identifier: "2", title: "Qualification Step", question: questQuestionStepTitle, answer: questAnswerFormat)
     steps += [questQuestionStep]
     
   
@@ -55,14 +58,15 @@ public var SurveyTask: ORKOrderedTask {
         return ORKImageChoice(normalImage: $0.0, selectedImage: nil, text: $0.1, value: $0.1 as NSString)
     }
     let colorAnswerFormat: ORKImageChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: imageChoices)
-    let colorQuestionStep = ORKQuestionStep(identifier: "ImageChoiceQuestionStep", title: "Adventure Step", question: colorQuestionStepTitle, answer: colorAnswerFormat)
+    let colorQuestionStep = ORKQuestionStep(identifier: "3", title: "Adventure Step", question: colorQuestionStepTitle, answer: colorAnswerFormat)
     steps += [colorQuestionStep]
     
     
     //TODO: add signature step
-    let signatureStep: ORKSignatureStep = ORKSignatureStep(identifier: "SignatureStepForSurvey")
+    let signatureStep: ORKSignatureStep = ORKSignatureStep(identifier: "4")
     signatureStep.title = "Sign Here!"
     signatureStep.isOptional = true
+    //signatureStep.image = UIImage(named: "baloonride")
     steps += [signatureStep]
     
     
@@ -73,7 +77,7 @@ public var SurveyTask: ORKOrderedTask {
         AVSampleRateKey: 44100.0
     ] as [String : Any]
     
-    let voiceRecordStep: ORKAudioStep = ORKAudioStep(identifier: "AudioRecordStepInSurvey")
+    let voiceRecordStep: ORKAudioStep = ORKAudioStep(identifier: "5")
     voiceRecordStep.title = "Recording your voice. Speak up!"
     voiceRecordStep.stepDuration = 5
     
@@ -85,7 +89,7 @@ public var SurveyTask: ORKOrderedTask {
     
     //TODO: add Image Capture step
     let templateImage = UIImage(named: "baloonride")!
-    let imageCaptureStep: ORKImageCaptureStep = ORKImageCaptureStep(identifier: "ImageCaptureStepInSurvey")
+    let imageCaptureStep: ORKImageCaptureStep = ORKImageCaptureStep(identifier: "6")
     imageCaptureStep.templateImage = templateImage
     steps += [imageCaptureStep]
     
